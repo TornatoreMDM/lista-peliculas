@@ -2,9 +2,27 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Página</title>
+  <title>Ejemplo API con Google Sheets</title>
 </head>
 <body>
-  <h1>¡Hola mundo desde GitHub Pages!</h1>
+  <h1>Datos desde Google Sheets</h1>
+  <ul id="lista"></ul>
+
+  <script>
+    async function cargarDatos() {
+      const url = "https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec"; // URL de tu script publicado
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const lista = document.getElementById("lista");
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nombre} - ${item.edad} años`;
+        lista.appendChild(li);
+      });
+    }
+
+    cargarDatos();
+  </script>
 </body>
 </html>

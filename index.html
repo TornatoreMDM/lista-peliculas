@@ -2,33 +2,33 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ejemplo API con Google Sheets</title>
+  <title>Listado desde Google Sheets</title>
 </head>
 <body>
   <h1>Datos desde Google Sheets</h1>
   <ul id="lista"></ul>
-  
+
   <script>
-  async function cargarDatos() {
-    const url = "https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec";
-    const res = await fetch(url);
-    const data = await res.json();
-  
-    const lista = document.getElementById("lista");
-    data.forEach((item, index) => {
-      const li = document.createElement("li");
-      li.innerHTML = `${item.nombre} - ${item.edad} años 
-                      <button onclick="editar(${index}, '${item.nombre}', ${item.edad})">Editar</button>`;
-      lista.appendChild(li);
-    });
-  }
-  
-  function editar(fila, nombre, edad) {
-    // Redirigir a la página de edición pasando datos por query string
-    window.location.href = `editar.html?fila=${fila}&nombre=${encodeURIComponent(nombre)}&edad=${edad}`;
-  }
-  
-  cargarDatos();
+    const API_URL = "https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec"; 
+    async function cargarDatos() {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      data.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${item.nombre} - ${item.edad} años 
+          <button onclick="editar(${index}, '${item.nombre}', ${item.edad})">Editar</button>`;
+        lista.appendChild(li);
+      });
+    }
+
+    function editar(fila, nombre, edad) {
+      window.location.href = `editar.html?fila=${fila}&nombre=${encodeURIComponent(nombre)}&edad=${edad}`;
+    }
+
+    cargarDatos();
   </script>
 </body>
 </html>

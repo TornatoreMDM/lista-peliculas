@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Registro</title>
+</head>
+<body>
+  <h1>Editar Registro</h1>
+  <form id="formEditar">
+    <input type="hidden" id="fila">
+    <label>Nombre: <input type="text" id="nombre"></label><br>
+    <label>Edad: <input type="number" id="edad"></label><br>
+    <button type="submit">Guardar</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("fila").value = params.get("fila");
+    document.getElementById("nombre").value = params.get("nombre");
+    document.getElementById("edad").value = params.get("edad");
+
+    const form = document.getElementById("formEditar");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        fila: document.getElementById("fila").value,
+        nombre: document.getElementById("nombre").value,
+        edad: document.getElementById("edad").value
+      };
+
+      const res = await fetch("TU_URL_DEL_WEBAPP", {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      if(result.status === "ok"){
+        alert("Registro actualizado");
+        window.location.href = "index.html";
+      } else {
+        alert("Error al actualizar");
+      }
+    });
+  </script>
+</body>
+</html>

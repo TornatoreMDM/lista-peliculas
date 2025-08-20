@@ -14,6 +14,9 @@
   </form>
 
   <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec";
+
+    // Recuperar parámetros
     const params = new URLSearchParams(window.location.search);
     document.getElementById("fila").value = params.get("fila");
     document.getElementById("nombre").value = params.get("nombre");
@@ -22,19 +25,15 @@
     const form = document.getElementById("formEditar");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const data = {
-        fila: document.getElementById("fila").value,
-        nombre: document.getElementById("nombre").value,
-        edad: document.getElementById("edad").value
-      };
+      const fila = document.getElementById("fila").value;
+      const nombre = document.getElementById("nombre").value;
+      const edad = document.getElementById("edad").value;
 
-      const res = await fetch("https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
-
+      const url = `${API_URL}?action=update&fila=${fila}&nombre=${encodeURIComponent(nombre)}&edad=${edad}`;
+      const res = await fetch(url);
       const result = await res.json();
-      if(result.status === "ok"){
+
+      if (result.status === "ok") {
         alert("Registro actualizado");
         window.location.href = "index.html";
       } else {
@@ -44,3 +43,4 @@
   </script>
 </body>
 </html>
+

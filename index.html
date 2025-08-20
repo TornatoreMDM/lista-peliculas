@@ -7,22 +7,28 @@
 <body>
   <h1>Datos desde Google Sheets</h1>
   <ul id="lista"></ul>
-
+  
   <script>
-    async function cargarDatos() {
-      const url = "https://script.google.com/macros/s/AKfycbxPROmjbzXGVIomvf6-AD6JQxYcZZARU8Byv99MXL9OET9bDw-6qgJz_MMsZGHFVKeQMw/exec"; // URL de tu script publicado
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const lista = document.getElementById("lista");
-      data.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = `${item.nombre} - ${item.edad} años`;
-        lista.appendChild(li);
-      });
-    }
-
-    cargarDatos();
+  async function cargarDatos() {
+    const url = "TU_URL_DEL_WEBAPP";
+    const res = await fetch(url);
+    const data = await res.json();
+  
+    const lista = document.getElementById("lista");
+    data.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `${item.nombre} - ${item.edad} años 
+                      <button onclick="editar(${index}, '${item.nombre}', ${item.edad})">Editar</button>`;
+      lista.appendChild(li);
+    });
+  }
+  
+  function editar(fila, nombre, edad) {
+    // Redirigir a la página de edición pasando datos por query string
+    window.location.href = `editar.html?fila=${fila}&nombre=${encodeURIComponent(nombre)}&edad=${edad}`;
+  }
+  
+  cargarDatos();
   </script>
 </body>
 </html>
